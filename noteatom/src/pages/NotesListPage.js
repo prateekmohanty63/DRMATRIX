@@ -6,8 +6,8 @@ const NotesListPage = () => {
   return (
     <div>
       <div className="notes-list">
-        {notes.map((note) => (
-          <ListItem />
+        {notes.map((note, index) => (
+          <ListItem key={index} note={note} />
         ))}
       </div>
     </div>

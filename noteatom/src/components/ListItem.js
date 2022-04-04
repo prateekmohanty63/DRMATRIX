@@ -1,9 +1,9 @@
 import React from "react";
 
-export const ListItem = () => {
+export const ListItem = ({ note }) => {
   return (
     <div>
-      <h3>List Item</h3>
+      <h3>{note.body}</h3>
     </div>
   );
 };
