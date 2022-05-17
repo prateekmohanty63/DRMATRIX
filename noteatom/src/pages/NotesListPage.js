@@ -7,7 +7,7 @@ const NotesListPage = () => {
     <div>
       <div className="notes-list">
         {notes.map((note, index) => {
-          console.log(note);
+          // console.log(note);
           return <ListItem key={index} note={note} />;
         })}
       </div>
