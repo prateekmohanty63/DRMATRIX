@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import notes from "../assets/data";
+import { Link } from "react-router-dom";
+import { ReactComponent as ArrowLeft } from "../assets/arrow-left.svg";
 
 const NotePage = (props) => {
   // console.log("props: ", props);
@@ -9,9 +11,18 @@ const NotePage = (props) => {
 
   console.log(id);
   return (
-    <div>
-      <p>{note?.body}</p>
+    <div className="note">
+      <div className="note-header">
+        <h3>
+          <Link to="/">
+            <ArrowLeft />
+          </Link>
+        </h3>
+      </div>
+
       {/* <div>{note.body}</div> */}
+
+      <textarea value={note?.body}></textarea>
     </div>
   );
 };

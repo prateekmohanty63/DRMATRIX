@@ -20,13 +20,14 @@ function App() {
     // </Router>
 
     <Router>
-      <div className="App">
-        My Project
-        <Header />
-        <Routes>
-          <Route path="/" element={<NotesListPage></NotesListPage>} />
-          <Route path="/note/:id" element={<NotePage></NotePage>} />
-        </Routes>
+      <div className="container dark">
+        <div className="app">
+          <Header />
+          <Routes>
+            <Route path="/" element={<NotesListPage></NotesListPage>} />
+            <Route path="/note/:id" element={<NotePage></NotePage>} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
