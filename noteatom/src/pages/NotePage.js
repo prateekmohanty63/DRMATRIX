@@ -18,6 +18,7 @@ const NotePage = (props) => {
 
   // function to get note
   let getNote = async () => {
+    if (id === "new") return;
     let response = await fetch(`http://localhost:8000/notes/${id}`);
     let data = await response.json();
     console.log(data);
@@ -36,7 +37,14 @@ const NotePage = (props) => {
   };
 
   let handleSubmit = () => {
-    updateNote();
+    if (id !== "new" && !note.body) {
+      deleteNote();
+    } else if (id !== "new") {
+      updateNote();
+    } else if (id === "new" && note !== null) {
+      createNote();
+    }
+    // updateNote();
     navigate("/");
   };
 
@@ -53,6 +61,19 @@ const NotePage = (props) => {
     navigate("/");
   };
 
+  // function to create a note
+
+  const createNote = async () => {
+    await fetch("http://localhost:8000/notes/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...note, updated: new Date() }),
+    });
+    navigate("/");
+  };
+
   console.log(id);
   return (
     <div className="note">
@@ -63,7 +84,11 @@ const NotePage = (props) => {
           </Link>
         </h3>
 
-        <button onClick={deleteNote}>Delete</button>
+        {id !== "new" ? (
+          <button onClick={deleteNote}>Delete</button>
+        ) : (
+          <button onClick={handleSubmit}>Done</button>
+        )}
       </div>
 
       {/* <div>{note.body}</div> */}
