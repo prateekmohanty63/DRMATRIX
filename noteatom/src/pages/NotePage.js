@@ -16,6 +16,7 @@ const NotePage = (props) => {
     getNote();
   }, [id]);
 
+  // function to get note
   let getNote = async () => {
     let response = await fetch(`http://localhost:8000/notes/${id}`);
     let data = await response.json();
@@ -23,6 +24,7 @@ const NotePage = (props) => {
     setNote(data);
   };
 
+  // function to update note
   let updateNote = async () => {
     await fetch(`http://localhost:8000/notes/${id}`, {
       method: "PUT",
@@ -38,6 +40,19 @@ const NotePage = (props) => {
     navigate("/");
   };
 
+  // function to delete note
+
+  let deleteNote = async () => {
+    await fetch(`http://localhost:8000/notes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify(note),
+    });
+    navigate("/");
+  };
+
   console.log(id);
   return (
     <div className="note">
@@ -47,6 +62,8 @@ const NotePage = (props) => {
             <ArrowLeft onClick={handleSubmit} />
           </Link>
         </h3>
+
+        <button onClick={deleteNote}>Delete</button>
       </div>
 
       {/* <div>{note.body}</div> */}
