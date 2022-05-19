@@ -41,7 +41,7 @@ const NotePage = (props) => {
       deleteNote();
     } else if (id !== "new") {
       updateNote();
-    } else if (id === "new" && note !== null) {
+    } else if (id === "new" && note.body !== null) {
       createNote();
     }
     // updateNote();
@@ -87,7 +87,7 @@ const NotePage = (props) => {
         {id !== "new" ? (
           <button onClick={deleteNote}>Delete</button>
         ) : (
-          <button onClick={handleSubmit}>Done</button>
+          <button onClick={createNote}>Done</button>
         )}
       </div>
 
