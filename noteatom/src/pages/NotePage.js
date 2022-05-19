@@ -10,7 +10,7 @@ const NotePage = (props) => {
   const { id } = useParams();
   let navigate = useNavigate();
   //let note = notes.find((note) => note.id === Number(id));
-  let [note, setNote] = useState(null); // always initilize state at the top (good practice)
+  let [note, setNote] = useState(null); // always initialize state at the top (good practice)
 
   useEffect(() => {
     getNote();
