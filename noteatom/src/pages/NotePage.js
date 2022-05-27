@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const NotePage = (props) => {
   // console.log("props: ", props);
-  const { id } = useParams();
+  const { id } = useParams();      // use params is a hook
   let navigate = useNavigate();
   //let note = notes.find((note) => note.id === Number(id));
   let [note, setNote] = useState(null); // always initialize state at the top (good practice)
@@ -15,6 +15,9 @@ const NotePage = (props) => {
   useEffect(() => {
     getNote();
   }, [id]);
+
+  // cerf token
+  
 
   // function to get note
   let getNote = async () => {
@@ -27,12 +30,12 @@ const NotePage = (props) => {
 
   // function to update note
   let updateNote = async () => {
-    await fetch(`http://localhost:8000/notes/${id}`, {
+    await fetch(`/api/notes/${id}/update/`, {
       method: "PUT",
       headers: {
         "content-Type": "application/json",
       },
-      body: JSON.stringify({ ...note, updated: new Date() }),
+      body: JSON.stringify(note)
     });
   };
 
@@ -43,9 +46,11 @@ const NotePage = (props) => {
       updateNote();
     } else if (id === "new" && note.body !== null) {
       createNote();
+      
     }
     // updateNote();
     navigate("/");
+    
   };
 
   // function to delete note
@@ -79,9 +84,9 @@ const NotePage = (props) => {
     <div className="note">
       <div className="note-header">
         <h3>
-          <Link to="/">
+          
             <ArrowLeft onClick={handleSubmit} />
-          </Link>
+         
         </h3>
 
         {id !== "new" ? (
@@ -97,7 +102,7 @@ const NotePage = (props) => {
         onChange={(e) => {
           setNote({ ...note, body: e.target.value });
         }}
-        value={note?.body}
+        defaultValue={note?.body}
       ></textarea>
     </div>
   );
