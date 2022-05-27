@@ -13,7 +13,7 @@ const NotesListPage = () => {
   }, []); // [depenciences] the useEffect will be called on every change
 
   let getNotes = async () => {
-    let response = await fetch("http://localhost:8000/notes/");
+    let response = await fetch("/api/notes/");
     let data = await response.json();
     setNotes(data);
   };
