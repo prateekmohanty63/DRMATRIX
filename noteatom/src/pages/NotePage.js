@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ReactComponent as ArrowLeft } from "../assets/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import $ from "jquery";
 const NotePage = (props) => {
   // console.log("props: ", props);
-  const { id } = useParams();      // use params is a hook
+  const { id } = useParams(); // use params is a hook
   let navigate = useNavigate();
   //let note = notes.find((note) => note.id === Number(id));
   let [note, setNote] = useState(null); // always initialize state at the top (good practice)
@@ -16,8 +17,28 @@ const NotePage = (props) => {
     getNote();
   }, [id]);
 
-  // cerf token
-  
+  // csrf token
+  axios.defaults.xsrfCookieName = "csrftoken";
+  axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+  // function to get cookie
+  // function getCookie(name) {
+  //   var cookieValue = null;
+  //   if (document.cookie && document.cookie !== '') {
+  //       var cookies = document.cookie.split(';');
+  //       for (var i = 0; i < cookies.length; i++) {
+  //           var cookie = jQuery.trim(cookies[i]);
+  //           if (cookie.substring(0, name.length + 1) === (name + '=')) {
+  //               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+  //               break;
+  //           }
+  //       }
+  //   }
+  //   return cookieValue;
+  // }
+
+  // csrf token
+  // var csrftoken = getCookie('csrftoken');
 
   // function to get note
   let getNote = async () => {
@@ -33,9 +54,9 @@ const NotePage = (props) => {
     await fetch(`/api/notes/${id}/update/`, {
       method: "PUT",
       headers: {
-        "content-Type": "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(note)
+      body: JSON.stringify(note),
     });
   };
 
@@ -46,35 +67,33 @@ const NotePage = (props) => {
       updateNote();
     } else if (id === "new" && note.body !== null) {
       createNote();
-      
     }
-    // updateNote();
     navigate("/");
-    
   };
 
   // function to delete note
 
   let deleteNote = async () => {
-    await fetch(`http://localhost:8000/notes/${id}`, {
+    fetch(`/api/notes/${id}/delete/`, {
       method: "DELETE",
       headers: {
-        "content-Type": "application/json",
+        "Content-Type": "application/json",
+        // 'X-CSRFToken': csrftoken
       },
-      body: JSON.stringify(note),
     });
     navigate("/");
   };
 
   // function to create a note
-
   const createNote = async () => {
-    await fetch("http://localhost:8000/notes/", {
+    var token = "gyuuttutoto8o8";
+    fetch("/api/notes/create/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "CSRF-Token": token,
       },
-      body: JSON.stringify({ ...note, updated: new Date() }),
+      body: JSON.stringify(note),
     });
     navigate("/");
   };
@@ -84,9 +103,7 @@ const NotePage = (props) => {
     <div className="note">
       <div className="note-header">
         <h3>
-          
-            <ArrowLeft onClick={handleSubmit} />
-         
+          <ArrowLeft onClick={handleSubmit} />
         </h3>
 
         {id !== "new" ? (
