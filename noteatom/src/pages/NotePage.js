@@ -119,7 +119,7 @@ const NotePage = (props) => {
         onChange={(e) => {
           setNote({ ...note, body: e.target.value });
         }}
-        defaultValue={note?.body}
+        value={note?.body}
       ></textarea>
     </div>
   );
